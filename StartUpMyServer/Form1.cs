@@ -65,7 +65,6 @@ namespace StartUpMyServer
             serverProcess.OutputDataReceived += ServerProcess_OutputDataReceived;
             serverProcess.EnableRaisingEvents = true;
             serverProcess.Exited += (s, evt) =>
-            serverProcess.Start();
             {
                 if (!serverProcess.HasExited)
                 {
