@@ -22,5 +22,17 @@ namespace StartUpMyServer.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string selectAssembly {
+            get {
+                return ((string)(this["selectAssembly"]));
+            }
+            set {
+                this["selectAssembly"] = value;
+            }
+        }
     }
 }
