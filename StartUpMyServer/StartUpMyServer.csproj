@@ -18,8 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ComputerInfo" Version="0.2.0" />
+    <PackageReference Include="CXuesong.Shims.VisualBasic.Devices" Version="0.3.0" />
     <PackageReference Include="IKVM" Version="8.7.5" />
+    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="runtime.any.System.Runtime.InteropServices" Version="4.3.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +53,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

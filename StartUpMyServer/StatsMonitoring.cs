@@ -4,58 +4,115 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using Microsoft.VisualBasic.Devices;
+using System.Management;
 
 namespace StartUpMyServer
 {
     internal class StatsMonitoring
     {
-        private PerformanceCounter checkMemory;
-        private PerformanceCounter availableMemory;
-        public event Action<int> CheckMemoryServer;
-        public event Action<int> AvailableMemory;
-        string javaPath;
-        string javaProcess;
+        private Thread updateAll;
+        
+        private ComputerInfo computerInfo;
+
+        private PerformanceCounter checkServerRam;
+        private PerformanceCounter checkAvailableRam;
+        private PerformanceCounter cpuUsageTotal;
+        
+        private ManagementObjectSearcher search;
+        private ManagementObjectSearcher searchObj;
+
+        public event Action<int> CheckMemory;
+        public event Action<int> RamMemory;
+        public event Action<int> CpuUsage;
+        public event Action<int> WeUsageRam;
+        
+        string javaPath, javaProcess;
+        float valueRamStatic;
 
         public StatsMonitoring()
         {
-            checkMemory = new PerformanceCounter("Process", "Working Set", "java");
-            availableMemory = new PerformanceCounter("Memory", "Available MBytes");
+            checkServerRam = new PerformanceCounter("Process", "Working Set", "java");
+            checkAvailableRam = new PerformanceCounter("Memory", "Available MBytes");
+            computerInfo = new ComputerInfo();
+            cpuUsageTotal = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            search = new ManagementObjectSearcher("select * from Win32_Processor");
         }
 
-        public void StartMonitoring(string javaPath)
+        public void CheckMonitoring()
         {
-            Process[] javaProcess = Process.GetProcessesByName("java");
-            foreach (Process process in javaProcess)
+            updateAll = new Thread(UpdateAll);
+            updateAll.IsBackground = true;
+            updateAll.Start();
+        }
+
+        public void MonitoringServerRam(string javaPath)
+        {
+            try
             {
-                if (CheckServerPath(process, javaPath))
+                Process[] javaProcess = Process.GetProcessesByName("java");
+                foreach (Process process in javaProcess)
                 {
-                    UpdateMemoryUsage();
+                    if (CheckServerPath(process, javaPath))
+                    {
+                        UpdateMemoryUsage();
+                    }
                 }
             }
-            UpdateAvalibleMemory();
+            catch { }
+        }
+
+        private void UpdateAll()
+        {
+            CpuCheckUsage();
+            UpdateMemoryUsage();
+            CheckRamMemory();
+            AvailableRam();
+        }
+
+        private void AvailableRam()
+        {
+            try
+            {
+                float ramUsed = checkAvailableRam.NextValue();
+                float WeUsedRam = valueRamStatic - ramUsed;
+                WeUsageRam?.Invoke((int)WeUsedRam);
+            }
+            catch { }
+        }
+
+        private void CpuCheckUsage()
+        {
+            try
+            {
+                float currentCpuUsage = cpuUsageTotal.NextValue();
+                CpuUsage?.Invoke((int)currentCpuUsage);
+            }
+            catch { CpuUsage?.Invoke(0); }
         }
 
         private void UpdateMemoryUsage()
         {
             try
             {
-                float memoryUsage = checkMemory.NextValue() / (1024 * 1024);
-                CheckMemoryServer?.Invoke((int)memoryUsage);
+                float memoryUsage = checkServerRam.NextValue() / (1024 * 1024);
+                CheckMemory?.Invoke((int)memoryUsage);
             }
-            catch { CheckMemoryServer?.Invoke(0); }
+            catch { CheckMemory?.Invoke(0); }
         }
 
-        private void UpdateAvalibleMemory()
+        private void CheckRamMemory()
         {
             try
             {
-                /*float availablePhysicalMemoryMB = SystemInfo.GetTotalPhysicalMemory();*/
-                float availableMemoryOut = availableMemory.NextValue();
-                AvailableMemory?.Invoke((int)availableMemoryOut);
+                float memoryRam = computerInfo.TotalPhysicalMemory / (1024 * 1024);
+                valueRamStatic = memoryRam;
+                RamMemory?.Invoke((int)memoryRam);
             }
-            catch { AvailableMemory?.Invoke(0); }
+            catch { RamMemory?.Invoke(0);}
+            
         }
 
         private bool CheckServerPath(Process javaProcess, string javaPath)

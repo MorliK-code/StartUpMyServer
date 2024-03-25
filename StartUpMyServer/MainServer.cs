@@ -1,5 +1,6 @@
 using StartUpMyServer.Properties;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace StartUpMyServer
@@ -12,7 +13,7 @@ namespace StartUpMyServer
         private StatsMonitoring monitoring;
 
         private string javaPath, selectedJarFile, selectedJarName, selectedFolder, startupFolder, selectedAssemblyName, customStartupPath;
-        private int availableMemory;
+        private int ramMemory, WeUsedRam;
 
         List<string> allMessage = new List<string>();
         List<string> infoMessages = new List<string>();
@@ -39,25 +40,35 @@ namespace StartUpMyServer
             selectLogLevel.SelectedItem = selectLogLevel.SelectedIndex = 0;
             selectAssembly.SelectedItem = Settings.Default.selectAssembly;
             server.ServerOutputReceived += ServerOutput;
-            monitoring.CheckMemoryServer += UpdateUsingMemory;
-            monitoring.AvailableMemory += Monitoring_AvalibleMemory;
+            monitoring.RamMemory += UpdateRamMemory;
+            monitoring.CheckMemory += UpdateUsingMemory;
+            monitoring.CpuUsage += UpdateCpuUsage;
+            monitoring.WeUsageRam += WeUsignRam;
 
-
-            timerProcess.Enabled = true;
             statusServer.BackColor = Color.Transparent;
         }
 
-        private void Monitoring_AvalibleMemory(int availableMemoryOutPut)
+        private void UpdateRamMemory(int checkRamMemory)
         {
-            availableMemory = availableMemoryOutPut;
+            ramMemory = checkRamMemory;
         }
-
+        private void WeUsignRam(int WeUsed)
+        {
+            WeUsedRam = WeUsed;
+        }
         private void UpdateUsingMemory(int memoryUsage)
         {
-            memoryOutPut.Invoke((MethodInvoker)(() => memoryOutPut.Text = ($"{memoryUsage} Мб / {availableMemory} Мб")));
-            memoryUsageBar.Value = (memoryUsage);
-            memoryServerOutPut.Invoke((MethodInvoker)(() => memoryServerOutPut.Text = ($"{memoryUsage} Мб / 4000 Мб")));
-            memoryUsageServerBar.Value = (memoryUsage);
+            memoryUsageLabel.Invoke((MethodInvoker)(() => memoryUsageLabel.Text = ($"{WeUsedRam} Мб / {ramMemory} Мб")));
+            memoryUsageBar.Invoke((MethodInvoker)(() => memoryUsageBar.Maximum = ramMemory));
+            memoryUsageBar.Invoke((MethodInvoker)(() => memoryUsageBar.Value = WeUsedRam));
+            memoryUsageServerLabel.Invoke((MethodInvoker)(() => memoryUsageServerLabel.Text = ($"{memoryUsage} Мб / 4000 Мб")));
+            memoryUsageServerBar.Invoke((MethodInvoker)(() => memoryUsageServerBar.Value = memoryUsage));
+        }
+
+        private void UpdateCpuUsage(int cpuPercent)
+        {
+            cpuUsageLabel.Invoke((MethodInvoker)(() => cpuUsageLabel.Text = ($"{cpuPercent} % / 100 %")));
+            cpuUsageBar1.Invoke((MethodInvoker)(() => cpuUsageBar1.Value = cpuPercent));
         }
 
         private void ServerOutput(string output)
@@ -70,21 +81,21 @@ namespace StartUpMyServer
                 {
                     Invoke(new Action(() =>
                     {
-                        switch (selectLogLevel.SelectedIndex)
+                        switch (selectLogLevel.SelectedItem)
                         {
-                            case 0:
+                            case "Весь вывод":
                                 consoleWrite.Items.Add(output);
                                 break;
-                            case 1:
+                            case "Только INFO":
 
                                 if (output.Contains("INFO"))
                                     consoleWrite.Items.Add(output);
                                 break;
-                            case 2:
+                            case "Только WARN":
                                 if (output.Contains("WARN"))
                                     consoleWrite.Items.Add(output);
                                 break;
-                            case 3:
+                            case "Только ERROR":
                                 if (output.Contains("ERROR"))
                                     consoleWrite.Items.Add(output);
                                 break;
@@ -141,9 +152,11 @@ namespace StartUpMyServer
             server.Kill(javaPath);
         }
 
-        private void killandrestartServer_Click(object sender, EventArgs e)
+        private async void killandrestartServer_Click(object sender, EventArgs e)
         {
-            server.KillAndStart(javaPath, selectedJarFile, startupFolder);
+            server.Kill(javaPath);
+            await Task.Delay(2000);
+            server.Start(javaPath, selectedJarFile, selectedFolder);
         }
 
         private void addAssembly_Click(object sender, EventArgs e)
@@ -305,28 +318,31 @@ namespace StartUpMyServer
 
         private void selectLogLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            consoleWrite.Items.Clear();
-            switch (selectLogLevel.SelectedIndex)
+            switch (selectLogLevel.SelectedItem)
             {
-                case 0:
+                case "Весь вывод":
+                    consoleWrite.Items.Clear();
                     foreach (var message in allMessage)
                     {
                         consoleWrite.Items.Add(message);
                     }
                     break;
-                case 1:
+                case "Только INFO":
+                    consoleWrite.Items.Clear();
                     foreach (var message in infoMessages)
                     {
                         consoleWrite.Items.Add(message);
                     }
                     break;
-                case 2:
+                case "Только WARN":
+                    consoleWrite.Items.Clear();
                     foreach (var message in warnMessages)
                     {
                         consoleWrite.Items.Add(message);
                     }
                     break;
-                case 3:
+                case "Только ERROR":
+                    consoleWrite.Items.Clear();
                     foreach (var message in errorMessages)
                     {
                         consoleWrite.Items.Add(message);
@@ -349,12 +365,37 @@ namespace StartUpMyServer
         private void timerProcess_Tick(object sender, EventArgs e)
         {
             UpdateStatus();
-            monitoring.StartMonitoring(javaPath);
+            monitoring.MonitoringServerRam(javaPath);
+            monitoring.CheckMonitoring();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void exportLog_Click(object sender, EventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog.Title = "Сохранение логов";
 
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath))
+                    {
+                        foreach (var item in consoleWrite.Items)
+                        {
+                            writer.WriteLine(item.ToString());
+                        }
+                    }
+
+                    MessageBox.Show("Log file saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving log file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

@@ -1,15 +1,8 @@
-﻿using com.sun.org.apache.xml.@internal.resolver.helpers;
-using com.sun.org.apache.xpath.@internal.operations;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using static com.sun.tools.javah.Util;
+﻿using System.Diagnostics;
 
 namespace StartUpMyServer
 {
+
     public class JavaServer
     {
         Process[] javaProcess;
@@ -89,15 +82,6 @@ namespace StartUpMyServer
                     if (CheckServerPath(jarProcess, javaPath))
                         jarProcess.Kill();
                 }
-            }
-        }
-
-        public void KillAndStart(string JavaPath, string JarPath, string Folder)
-        {
-            lock (lockObject)
-            {
-                Kill(JavaPath);
-                Start(JavaPath, JarPath, Folder);
             }
         }
 

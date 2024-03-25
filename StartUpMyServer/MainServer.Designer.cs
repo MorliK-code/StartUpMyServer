@@ -43,11 +43,12 @@
             killServer = new Button();
             groupBox6 = new GroupBox();
             groupBox10 = new GroupBox();
+            cpuUsageBar1 = new ProgressBar();
+            cpuUsageLabel = new Label();
             label2 = new Label();
-            processorUsageBar = new ProgressBar();
             groupBox9 = new GroupBox();
-            memoryServerOutPut = new Label();
-            memoryOutPut = new Label();
+            memoryUsageServerLabel = new Label();
+            memoryUsageLabel = new Label();
             label3 = new Label();
             label1 = new Label();
             memoryUsageServerBar = new ProgressBar();
@@ -67,7 +68,7 @@
             tabPage2 = new TabPage();
             openFileDialog1 = new OpenFileDialog();
             timerProcess = new System.Windows.Forms.Timer(components);
-            errorProvider1 = new ErrorProvider(components);
+            richTextBox1 = new RichTextBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -80,7 +81,6 @@
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -113,6 +113,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(richTextBox1);
             groupBox3.Controls.Add(consoleWrite);
             groupBox3.Location = new Point(316, 17);
             groupBox3.Name = "groupBox3";
@@ -169,7 +170,7 @@
             exportLog.TabIndex = 0;
             exportLog.Text = "Экспорт логов";
             exportLog.UseVisualStyleBackColor = true;
-            exportLog.Click += killServer_Click;
+            exportLog.Click += exportLog_Click;
             // 
             // groupBox2
             // 
@@ -226,14 +227,32 @@
             // 
             // groupBox10
             // 
+            groupBox10.Controls.Add(cpuUsageBar1);
+            groupBox10.Controls.Add(cpuUsageLabel);
             groupBox10.Controls.Add(label2);
-            groupBox10.Controls.Add(processorUsageBar);
             groupBox10.Location = new Point(7, 112);
             groupBox10.Name = "groupBox10";
             groupBox10.Size = new Size(280, 75);
             groupBox10.TabIndex = 7;
             groupBox10.TabStop = false;
             groupBox10.Text = "ЦП";
+            // 
+            // cpuUsageBar1
+            // 
+            cpuUsageBar1.Location = new Point(6, 43);
+            cpuUsageBar1.Name = "cpuUsageBar1";
+            cpuUsageBar1.Size = new Size(265, 17);
+            cpuUsageBar1.Step = 1;
+            cpuUsageBar1.TabIndex = 7;
+            // 
+            // cpuUsageLabel
+            // 
+            cpuUsageLabel.AutoSize = true;
+            cpuUsageLabel.Location = new Point(144, 19);
+            cpuUsageLabel.Name = "cpuUsageLabel";
+            cpuUsageLabel.Size = new Size(65, 15);
+            cpuUsageLabel.TabIndex = 6;
+            cpuUsageLabel.Text = "0 % / 100%";
             // 
             // label2
             // 
@@ -244,17 +263,10 @@
             label2.TabIndex = 6;
             label2.Text = "Используется/Общий:";
             // 
-            // processorUsageBar
-            // 
-            processorUsageBar.Location = new Point(6, 42);
-            processorUsageBar.Name = "processorUsageBar";
-            processorUsageBar.Size = new Size(265, 20);
-            processorUsageBar.TabIndex = 5;
-            // 
             // groupBox9
             // 
-            groupBox9.Controls.Add(memoryServerOutPut);
-            groupBox9.Controls.Add(memoryOutPut);
+            groupBox9.Controls.Add(memoryUsageServerLabel);
+            groupBox9.Controls.Add(memoryUsageLabel);
             groupBox9.Controls.Add(label3);
             groupBox9.Controls.Add(label1);
             groupBox9.Controls.Add(memoryUsageServerBar);
@@ -266,23 +278,23 @@
             groupBox9.TabStop = false;
             groupBox9.Text = "ОЗУ";
             // 
-            // memoryServerOutPut
+            // memoryUsageServerLabel
             // 
-            memoryServerOutPut.AutoSize = true;
-            memoryServerOutPut.Location = new Point(135, 54);
-            memoryServerOutPut.Name = "memoryServerOutPut";
-            memoryServerOutPut.Size = new Size(90, 15);
-            memoryServerOutPut.TabIndex = 6;
-            memoryServerOutPut.Text = "0 Мб / 4000 Мб";
+            memoryUsageServerLabel.AutoSize = true;
+            memoryUsageServerLabel.Location = new Point(135, 54);
+            memoryUsageServerLabel.Name = "memoryUsageServerLabel";
+            memoryUsageServerLabel.Size = new Size(90, 15);
+            memoryUsageServerLabel.TabIndex = 6;
+            memoryUsageServerLabel.Text = "0 Мб / 4000 Мб";
             // 
-            // memoryOutPut
+            // memoryUsageLabel
             // 
-            memoryOutPut.AutoSize = true;
-            memoryOutPut.Location = new Point(135, 18);
-            memoryOutPut.Name = "memoryOutPut";
-            memoryOutPut.Size = new Size(96, 15);
-            memoryOutPut.TabIndex = 6;
-            memoryOutPut.Text = "0 Мб / 16000 Мб";
+            memoryUsageLabel.AutoSize = true;
+            memoryUsageLabel.Location = new Point(135, 18);
+            memoryUsageLabel.Name = "memoryUsageLabel";
+            memoryUsageLabel.Size = new Size(96, 15);
+            memoryUsageLabel.TabIndex = 6;
+            memoryUsageLabel.Text = "0 Мб / 16000 Мб";
             // 
             // label3
             // 
@@ -301,7 +313,6 @@
             label1.Size = new Size(132, 15);
             label1.TabIndex = 6;
             label1.Text = "Используется/Общий:";
-            label1.Click += label1_Click;
             // 
             // memoryUsageServerBar
             // 
@@ -467,11 +478,17 @@
             // 
             // timerProcess
             // 
+            timerProcess.Enabled = true;
+            timerProcess.Interval = 500;
             timerProcess.Tick += timerProcess_Tick;
             // 
-            // errorProvider1
+            // richTextBox1
             // 
-            errorProvider1.ContainerControl = this;
+            richTextBox1.Location = new Point(129, 124);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(465, 297);
+            richTextBox1.TabIndex = 2;
+            richTextBox1.Text = "";
             // 
             // MainServer
             // 
@@ -499,7 +516,6 @@
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
 
@@ -538,11 +554,12 @@
         private Label label1;
         private System.Windows.Forms.Timer timerProcess;
         private ProgressBar memoryUsageBar;
-        private ProgressBar processorUsageBar;
-        private ErrorProvider errorProvider1;
-        private Label memoryOutPut;
+        private Label memoryUsageLabel;
         private Label label3;
         private ProgressBar memoryUsageServerBar;
-        private Label memoryServerOutPut;
+        private Label memoryUsageServerLabel;
+        private Label cpuUsageLabel;
+        private ProgressBar cpuUsageBar1;
+        private RichTextBox richTextBox1;
     }
 }
