@@ -318,37 +318,10 @@ namespace StartUpMyServer
             addAssembly.Enabled = enabled;
             deleteAssembly.Enabled = enabled;
         }
-        private void exportLog_Click_1(object sender, EventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveFileDialog.Title = "Сохранение логов";
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = saveFileDialog.FileName;
-
-                try
-                {
-                    using (StreamWriter writer = new StreamWriter(filePath))
-                    {
-                        foreach (var item in consoleWrite.Items)
-                        {
-                            writer.WriteLine(item.ToString());
-                        }
-                    }
-
-                    MessageBox.Show("Log file saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error saving log file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+        
         private void selectLogLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (selectLogLevel.SelectedItem)
+            switch (selectLogLevel.Text)
             {
                 case "Весь вывод":
                     consoleWrite.Items.Clear();
@@ -427,7 +400,5 @@ namespace StartUpMyServer
                 }
             }
         }
-
-        
     }
 }

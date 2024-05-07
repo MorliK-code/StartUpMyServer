@@ -68,6 +68,8 @@
             tabPage2 = new TabPage();
             openFileDialog1 = new OpenFileDialog();
             timerProcess = new System.Windows.Forms.Timer(components);
+            textBox2 = new TextBox();
+            label4 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -80,6 +82,7 @@
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox1.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -218,7 +221,7 @@
             groupBox6.Controls.Add(groupBox9);
             groupBox6.Location = new Point(18, 328);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(292, 240);
+            groupBox6.Size = new Size(292, 191);
             groupBox6.TabIndex = 0;
             groupBox6.TabStop = false;
             groupBox6.Text = "Использование данных";
@@ -349,7 +352,7 @@
             // selectAssembly
             // 
             selectAssembly.FormattingEnabled = true;
-            selectAssembly.Location = new Point(6, 22);
+            selectAssembly.Location = new Point(6, 21);
             selectAssembly.Name = "selectAssembly";
             selectAssembly.Size = new Size(211, 23);
             selectAssembly.TabIndex = 3;
@@ -461,6 +464,8 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label4);
+            tabPage2.Controls.Add(textBox2);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -479,6 +484,22 @@
             timerProcess.Enabled = true;
             timerProcess.Interval = 500;
             timerProcess.Tick += timerProcess_Tick;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(79, 24);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(100, 23);
+            textBox2.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(26, 27);
+            label4.Name = "label4";
+            label4.Size = new Size(38, 15);
+            label4.TabIndex = 1;
+            label4.Text = "label4";
             // 
             // MainServer
             // 
@@ -506,6 +527,8 @@
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             groupBox1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -550,5 +573,7 @@
         private Label memoryUsageServerLabel;
         private Label cpuUsageLabel;
         private ProgressBar cpuUsageBar1;
+        private Label label4;
+        private TextBox textBox2;
     }
 }
