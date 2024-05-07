@@ -1,6 +1,7 @@
 using StartUpMyServer.Properties;
 using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace StartUpMyServer
@@ -81,38 +82,37 @@ namespace StartUpMyServer
                 {
                     Invoke(new Action(() =>
                     {
-                        switch (selectLogLevel.SelectedItem)
+                        switch (selectLogLevel.Text)
                         {
                             case "Весь вывод":
-                                consoleWrite.Items.Add(output);
+                                consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
                             case "Только INFO":
-
                                 if (output.Contains("INFO"))
-                                    consoleWrite.Items.Add(output);
+                                    consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
                             case "Только WARN":
                                 if (output.Contains("WARN"))
-                                    consoleWrite.Items.Add(output);
+                                    consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
                             case "Только ERROR":
                                 if (output.Contains("ERROR"))
-                                    consoleWrite.Items.Add(output);
+                                    consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
                         }
 
-                        allMessage.Add(output);
+                        allMessage.Add(RemoveAnsiEscapeCodes(output));
                         if (output.Contains("INFO"))
                         {
-                            infoMessages.Add(output);
+                            infoMessages.Add(RemoveAnsiEscapeCodes(output));
                         }
                         if (output.Contains("WARN"))
                         {
-                            warnMessages.Add(output);
+                            warnMessages.Add(RemoveAnsiEscapeCodes(output));
                         }
                         if (output.Contains("ERROR"))
                         {
-                            errorMessages.Add(output);
+                            errorMessages.Add(RemoveAnsiEscapeCodes(output));
                         }
 
                         consoleWrite.SelectedIndex = consoleWrite.Items.Count - 1;
@@ -122,7 +122,10 @@ namespace StartUpMyServer
                 catch { }
             }
         }
-
+        private string RemoveAnsiEscapeCodes(string input)
+        {
+            return Regex.Replace(input, @"\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]", "");
+        }
         private void startServer_Click(object sender, EventArgs e)
         {
             ClearForStart();
@@ -315,7 +318,34 @@ namespace StartUpMyServer
             addAssembly.Enabled = enabled;
             deleteAssembly.Enabled = enabled;
         }
+        private void exportLog_Click_1(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog.Title = "Сохранение логов";
 
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath))
+                    {
+                        foreach (var item in consoleWrite.Items)
+                        {
+                            writer.WriteLine(item.ToString());
+                        }
+                    }
+
+                    MessageBox.Show("Log file saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving log file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
         private void selectLogLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (selectLogLevel.SelectedItem)
@@ -397,5 +427,7 @@ namespace StartUpMyServer
                 }
             }
         }
+
+        
     }
 }

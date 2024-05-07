@@ -68,7 +68,6 @@
             tabPage2 = new TabPage();
             openFileDialog1 = new OpenFileDialog();
             timerProcess = new System.Windows.Forms.Timer(components);
-            richTextBox1 = new RichTextBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -113,7 +112,6 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(richTextBox1);
             groupBox3.Controls.Add(consoleWrite);
             groupBox3.Location = new Point(316, 17);
             groupBox3.Name = "groupBox3";
@@ -468,7 +466,7 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(1074, 576);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Настройки сервера";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // openFileDialog1
@@ -481,14 +479,6 @@
             timerProcess.Enabled = true;
             timerProcess.Interval = 500;
             timerProcess.Tick += timerProcess_Tick;
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(129, 124);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(465, 297);
-            richTextBox1.TabIndex = 2;
-            richTextBox1.Text = "";
             // 
             // MainServer
             // 
@@ -560,6 +550,5 @@
         private Label memoryUsageServerLabel;
         private Label cpuUsageLabel;
         private ProgressBar cpuUsageBar1;
-        private RichTextBox richTextBox1;
     }
 }
