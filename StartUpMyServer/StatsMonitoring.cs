@@ -117,12 +117,12 @@ namespace StartUpMyServer
 
         private bool CheckServerPath(Process javaProcess, string javaPath)
         {
-            try
+            if (javaProcess.MainModule.FileName != null)
             {
                 string processPath = javaProcess.MainModule.FileName;
                 return processPath.Equals(javaPath, StringComparison.OrdinalIgnoreCase);
             }
-            catch {  return false; }
+            return false;
         }
 
     }

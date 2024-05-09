@@ -177,9 +177,14 @@
             ClientSize = new Size(270, 278);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "AddAssemblyForm";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Form1";
+            Text = "Редактор сборки";
+            TopMost = true;
             Load += AddAssemblyForm_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

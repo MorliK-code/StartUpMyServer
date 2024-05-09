@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using StartUpMyServer.Properties;
+using System.Diagnostics;
 
 namespace StartUpMyServer
 {
@@ -24,7 +25,7 @@ namespace StartUpMyServer
 
                 serverProcess = new Process();
                 serverProcess.StartInfo.FileName = javaPath;
-                serverProcess.StartInfo.Arguments = $"-jar \"{jarPath}\" nogui";
+                serverProcess.StartInfo.Arguments = $"{Settings.Default.startUpMinGb} {Settings.Default.startUpMaxGb} -jar \"{jarPath}\" nogui" ;
                 serverProcess.StartInfo.UseShellExecute = false;
                 serverProcess.StartInfo.CreateNoWindow = true;
                 serverProcess.StartInfo.WorkingDirectory = Path.GetDirectoryName($"{jarFolder}");
@@ -68,6 +69,18 @@ namespace StartUpMyServer
                 {
                     if (CheckServerPath(jarProcess, javaPath))
                         serverProcess.StandardInput.WriteLine("restart");
+                }
+            }
+        }
+        public void sendCommand(string javaPath, string command)
+        {
+            lock (lockObject)
+            {
+                javaProcess = Process.GetProcessesByName("java");
+                foreach (Process jarProcess in javaProcess)
+                {
+                    if (CheckServerPath(jarProcess, javaPath))
+                        serverProcess.StandardInput.WriteLine($"{command}");
                 }
             }
         }

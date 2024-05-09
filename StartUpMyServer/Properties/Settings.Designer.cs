@@ -34,5 +34,101 @@ namespace StartUpMyServer.Properties {
                 this["selectAssembly"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mb")]
+        public string selectMaxGBorMB {
+            get {
+                return ((string)(this["selectMaxGBorMB"]));
+            }
+            set {
+                this["selectMaxGBorMB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int selectMaxValueRAM {
+            get {
+                return ((int)(this["selectMaxValueRAM"]));
+            }
+            set {
+                this["selectMaxValueRAM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string startUpMaxGb {
+            get {
+                return ((string)(this["startUpMaxGb"]));
+            }
+            set {
+                this["startUpMaxGb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string startUpMinGb {
+            get {
+                return ((string)(this["startUpMinGb"]));
+            }
+            set {
+                this["startUpMinGb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isGbMax {
+            get {
+                return ((bool)(this["isGbMax"]));
+            }
+            set {
+                this["isGbMax"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isGbMin {
+            get {
+                return ((bool)(this["isGbMin"]));
+            }
+            set {
+                this["isGbMin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mb")]
+        public string selectMinGBorMB {
+            get {
+                return ((string)(this["selectMinGBorMB"]));
+            }
+            set {
+                this["selectMinGBorMB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("256")]
+        public int selectMinValueRAM {
+            get {
+                return ((int)(this["selectMinValueRAM"]));
+            }
+            set {
+                this["selectMinValueRAM"] = value;
+            }
+        }
     }
 }

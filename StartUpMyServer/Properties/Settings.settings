@@ -5,5 +5,29 @@
     <Setting Name="selectAssembly" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="selectMaxGBorMB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Mb</Value>
+    </Setting>
+    <Setting Name="selectMaxValueRAM" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
+    <Setting Name="startUpMaxGb" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="startUpMinGb" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="isGbMax" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="isGbMin" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="selectMinGBorMB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Mb</Value>
+    </Setting>
+    <Setting Name="selectMinValueRAM" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">256</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
