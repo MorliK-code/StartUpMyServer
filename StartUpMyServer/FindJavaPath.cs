@@ -10,6 +10,7 @@ namespace StartUpMyServer
             string[] standardJavaPaths = {
                 @"C:\Program Files\Java",
                 @"C:\Program Files\AdoptOpenJDK",
+                @"C:\Program Files\Eclipse Adoptium",
                 @"C:\Program Files\Amazon Corretto",
                 @"C:\Program Files\Zulu"
             };

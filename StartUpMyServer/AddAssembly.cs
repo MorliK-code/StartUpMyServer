@@ -43,6 +43,7 @@ namespace StartUpMyServer
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                jarFileName.Text = "";
                 JarFilePath = openFileDialog1.FileName;
                 LoadFormData();
             }
@@ -53,6 +54,7 @@ namespace StartUpMyServer
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 selectedFolder = folderBrowserDialog1.SelectedPath;
+                startupFolder.Text = "";
                 startupFolder.Text = selectedFolder;
             }
         }

@@ -691,6 +691,7 @@
             selectMinGbOrMbComboBox.Name = "selectMinGbOrMbComboBox";
             selectMinGbOrMbComboBox.Size = new Size(63, 23);
             selectMinGbOrMbComboBox.TabIndex = 0;
+            selectMinGbOrMbComboBox.SelectedIndexChanged += selectMinGbOrMbComboBox_SelectedIndexChanged;
             // 
             // selectMaxGBOrMBComboBox
             // 
@@ -1872,6 +1873,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1076, 569);
             Controls.Add(tabControl1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainServer";
             StartPosition = FormStartPosition.CenterScreen;

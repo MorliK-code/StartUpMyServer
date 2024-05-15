@@ -61,9 +61,9 @@
             customFolder.AutoSize = true;
             customFolder.Location = new Point(52, 119);
             customFolder.Name = "customFolder";
-            customFolder.Size = new Size(133, 19);
+            customFolder.Size = new Size(117, 19);
             customFolder.TabIndex = 3;
-            customFolder.Text = "Своя папка запуска";
+            customFolder.Text = "My folder startup";
             customFolder.UseVisualStyleBackColor = true;
             customFolder.CheckedChanged += customFolder_CheckedChanged;
             // 
@@ -79,9 +79,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(70, 17);
             label1.Name = "label1";
-            label1.Size = new Size(102, 15);
+            label1.Size = new Size(91, 15);
             label1.TabIndex = 6;
-            label1.Text = "Название сборки";
+            label1.Text = "Assembly name";
             // 
             // groupBox1
             // 
@@ -92,7 +92,7 @@
             groupBox1.Size = new Size(243, 67);
             groupBox1.TabIndex = 7;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Название сборки";
+            groupBox1.Text = "Assembly name";
             // 
             // groupBox2
             // 
@@ -109,7 +109,7 @@
             groupBox2.Size = new Size(243, 181);
             groupBox2.TabIndex = 8;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Сервер";
+            groupBox2.Text = "Server";
             // 
             // assemblySave
             // 
@@ -117,27 +117,27 @@
             assemblySave.Name = "assemblySave";
             assemblySave.Size = new Size(104, 23);
             assemblySave.TabIndex = 7;
-            assemblySave.Text = "Создать сборку";
+            assemblySave.Text = "Create assembly";
             assemblySave.UseVisualStyleBackColor = true;
             assemblySave.Click += assemblySave_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(60, 69);
+            label3.Location = new Point(52, 72);
             label3.Name = "label3";
-            label3.Size = new Size(125, 15);
+            label3.Size = new Size(138, 15);
             label3.TabIndex = 6;
-            label3.Text = "Выбор папки запуска";
+            label3.Text = "Select folder with startup";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(68, 19);
+            label2.Location = new Point(75, 16);
             label2.Name = "label2";
-            label2.Size = new Size(104, 15);
+            label2.Size = new Size(79, 15);
             label2.TabIndex = 6;
-            label2.Text = "Выбор JAR файла";
+            label2.Text = "Select JAR file";
             // 
             // startupFolder
             // 
@@ -177,13 +177,14 @@
             ClientSize = new Size(270, 278);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AddAssemblyForm";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Редактор сборки";
+            Text = "Assembly editor";
             TopMost = true;
             Load += AddAssemblyForm_Load;
             groupBox1.ResumeLayout(false);

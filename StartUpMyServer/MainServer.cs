@@ -184,7 +184,15 @@ namespace StartUpMyServer
                 AddNewAssembly();
             else
                 EditAssembly(selectedName);
-                selectAssembly.SelectedIndex = selectAssembly.Items.Count - 1;
+            if (selectAssembly.SelectedItem != null)
+            {
+                selectAssembly.SelectedItem = selectAssembly.Items.Count - 1;
+            }
+            else
+            {
+                selectAssembly.SelectedItem = 0;
+            }
+            
         }
 
         private void AddNewAssembly()
@@ -198,10 +206,10 @@ namespace StartUpMyServer
                     customStartupPath = addAssemblyForm.selectedFolder;
 
                     selectAssembly.Items.Add(selectedAssemblyName);
-                    selectAssembly.SelectedIndex = selectAssembly.Items.Count;
+                    selectAssembly.SelectedItem = selectAssembly.Items.Count;
                 }
             }
-            
+
         }
 
         private void ClearForStart()
@@ -274,17 +282,19 @@ namespace StartUpMyServer
 
                     if (selected != null)
                     {
-                        selectedJarName = selected.ToString();
+                        selectedAssemblyName = selected.ToString();
+                        selectedJarName = selected.JarFileName;
                         selectedJarFile = selected.JarFilePath;
                         startupFolder = selected.Folder;
                         selectedFolder = $"{startupFolder}\\{selectedJarName}";
+                        
 
                         consoleWrite.Items.Clear();
-                        consoleWrite.Items.Add($"Название сборки: {selectedJarName}");
+                        consoleWrite.Items.Add($"Название сборки: {selectedAssemblyName}");
                         consoleWrite.Items.Add($"Название JAR файла: {selectedJarName}");
                         consoleWrite.Items.Add($"Путь JAR файла: {selectedJarFile}");
                         consoleWrite.Items.Add($"Папка запуска: {startupFolder}");
-                        consoleWrite.SelectedIndex = consoleWrite.Items.Count - 1;
+                        consoleWrite.SelectedItem = consoleWrite.Items.Count - 1;
                         consoleWrite.ClearSelected();
 
                         Settings.Default.selectAssembly = selectedAssemblyName;
@@ -306,9 +316,9 @@ namespace StartUpMyServer
                 if (selected != null)
                 {
                     assemblies.Remove(selected);
-                    
+
                     JarFileManager.Save(assemblies);
-                    
+
 
                     MessageBox.Show("Сборка успешно удалена.", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -320,7 +330,7 @@ namespace StartUpMyServer
             UpdateSelectAssembly();
             if (selectAssembly.Items.Count > 0)
             {
-                selectAssembly.SelectedIndex = 0;
+                selectAssembly.SelectedItem = 0;
             }
 
         }
@@ -607,24 +617,20 @@ namespace StartUpMyServer
             if (selectMaxGBOrMBComboBox.Text == "Gb")
             {
                 Settings.Default.isGbMax = true;
-                valueMaxRamNumeric.Maximum = 64;
                 Settings.Default.startUpMaxGb = "-Xmx" + Settings.Default.selectMaxValueRAM + "G";
             }
             else
             {
                 Settings.Default.isGbMax = false;
-                valueMaxRamNumeric.Maximum = 64000;
                 Settings.Default.startUpMaxGb = "-Xmx" + Settings.Default.selectMaxValueRAM + "M";
             }
 
             if (selectMinGbOrMbComboBox.Text == "Gb")
             {
-                valueMinRamNumeric.Maximum = 32;
                 Settings.Default.startUpMinGb = "-Xms" + Settings.Default.selectMinValueRAM + "G";
             }
             else
             {
-                valueMaxRamNumeric.Maximum = 32000;
                 Settings.Default.startUpMinGb = "-Xms" + Settings.Default.selectMinValueRAM + "M";
             }
 
@@ -674,7 +680,26 @@ namespace StartUpMyServer
 
         private void selectMaxGBOrMBComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (selectMaxGBOrMBComboBox.Text == "Gb")
+            {
+                valueMaxRamNumeric.Maximum = 64;
+            }
+            else
+            {
+                valueMaxRamNumeric.Maximum = 64000;
+            }
+        }
 
+        private void selectMinGbOrMbComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectMinGbOrMbComboBox.Text == "Gb")
+            {
+                valueMinRamNumeric.Maximum = 32;
+            }
+            else
+            {
+                valueMinRamNumeric.Maximum = 32000;
+            }
         }
     }
 }
