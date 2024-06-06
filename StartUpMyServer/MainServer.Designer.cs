@@ -249,7 +249,7 @@
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(1068, 541);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "Сеть";
+            tabPage1.Text = "Головна";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox3
@@ -270,7 +270,7 @@
             sendCommand.Name = "sendCommand";
             sendCommand.Size = new Size(112, 25);
             sendCommand.TabIndex = 4;
-            sendCommand.Text = "Отправить";
+            sendCommand.Text = "Відправити";
             sendCommand.UseVisualStyleBackColor = true;
             sendCommand.Click += sendCommand_Click;
             // 
@@ -278,7 +278,7 @@
             // 
             commandTextBox.Location = new Point(6, 503);
             commandTextBox.Name = "commandTextBox";
-            commandTextBox.PlaceholderText = "Введите команду";
+            commandTextBox.PlaceholderText = "Введіть команду";
             commandTextBox.Size = new Size(620, 23);
             commandTextBox.TabIndex = 3;
             commandTextBox.KeyDown += commandTextBox_KeyDown;
@@ -312,13 +312,13 @@
             groupBox8.Size = new Size(127, 56);
             groupBox8.TabIndex = 1;
             groupBox8.TabStop = false;
-            groupBox8.Text = "Вывод";
+            groupBox8.Text = "Вивід";
             // 
             // selectLogLevel
             // 
             selectLogLevel.DropDownStyle = ComboBoxStyle.DropDownList;
             selectLogLevel.FormattingEnabled = true;
-            selectLogLevel.Items.AddRange(new object[] { "Весь вывод", "Только INFO", "Только WARN", "Только ERROR" });
+            selectLogLevel.Items.AddRange(new object[] { "Увесь вивід", "Тільки INFO", "Тільки WARN", "Тільки ERROR" });
             selectLogLevel.Location = new Point(6, 22);
             selectLogLevel.Name = "selectLogLevel";
             selectLogLevel.Size = new Size(115, 23);
@@ -331,7 +331,7 @@
             exportLog.Name = "exportLog";
             exportLog.Size = new Size(131, 25);
             exportLog.TabIndex = 0;
-            exportLog.Text = "Экспорт логов";
+            exportLog.Text = "Експорт логів";
             exportLog.UseVisualStyleBackColor = true;
             exportLog.Click += exportLog_Click;
             // 
@@ -345,7 +345,7 @@
             groupBox2.Size = new Size(143, 115);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Задачи";
+            groupBox2.Text = "Задачі";
             // 
             // killAllJava
             // 
@@ -353,7 +353,7 @@
             killAllJava.Name = "killAllJava";
             killAllJava.Size = new Size(131, 25);
             killAllJava.TabIndex = 0;
-            killAllJava.Text = "Убить все Java";
+            killAllJava.Text = "Вбити усі Java";
             killAllJava.UseVisualStyleBackColor = true;
             killAllJava.Click += killAllJava_Click;
             // 
@@ -373,7 +373,7 @@
             killServer.Name = "killServer";
             killServer.Size = new Size(131, 25);
             killServer.TabIndex = 0;
-            killServer.Text = "Убить";
+            killServer.Text = "Вбити";
             killServer.UseVisualStyleBackColor = true;
             killServer.Click += killServer_Click;
             // 
@@ -386,7 +386,7 @@
             groupBox6.Size = new Size(292, 191);
             groupBox6.TabIndex = 0;
             groupBox6.TabStop = false;
-            groupBox6.Text = "Использование данных";
+            groupBox6.Text = "Використання ресурсів";
             // 
             // groupBox10
             // 
@@ -422,9 +422,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(6, 19);
             label2.Name = "label2";
-            label2.Size = new Size(132, 15);
+            label2.Size = new Size(125, 15);
             label2.TabIndex = 6;
-            label2.Text = "Используется/Общий:";
+            label2.Text = "Використано/Всього:";
             // 
             // groupBox9
             // 
@@ -439,7 +439,7 @@
             groupBox9.Size = new Size(280, 94);
             groupBox9.TabIndex = 7;
             groupBox9.TabStop = false;
-            groupBox9.Text = "ОЗУ";
+            groupBox9.Text = "Оперативна пам'ять";
             // 
             // memoryUsageServerLabel
             // 
@@ -464,18 +464,18 @@
             label3.AutoSize = true;
             label3.Location = new Point(6, 54);
             label3.Name = "label3";
-            label3.Size = new Size(132, 15);
+            label3.Size = new Size(125, 15);
             label3.TabIndex = 6;
-            label3.Text = "Используется/Общий:";
+            label3.Text = "Використано/Всього:";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(6, 18);
             label1.Name = "label1";
-            label1.Size = new Size(132, 15);
+            label1.Size = new Size(125, 15);
             label1.TabIndex = 6;
-            label1.Text = "Используется/Общий:";
+            label1.Text = "Використано/Всього:";
             // 
             // memoryUsageServerBar
             // 
@@ -510,7 +510,7 @@
             groupBox5.Size = new Size(292, 60);
             groupBox5.TabIndex = 0;
             groupBox5.TabStop = false;
-            groupBox5.Text = "Выбор сборки";
+            groupBox5.Text = "Вибір сборки";
             // 
             // selectAssembly
             // 
@@ -612,7 +612,7 @@
             stopServer.Name = "stopServer";
             stopServer.Size = new Size(131, 25);
             stopServer.TabIndex = 0;
-            stopServer.Text = "Остановка";
+            stopServer.Text = "Зупинка";
             stopServer.UseVisualStyleBackColor = true;
             stopServer.Click += stopServer_Click;
             // 
@@ -622,7 +622,7 @@
             startServer.Name = "startServer";
             startServer.Size = new Size(131, 25);
             startServer.TabIndex = 0;
-            startServer.Text = "Запуск";
+            startServer.Text = "Старт";
             startServer.UseVisualStyleBackColor = true;
             startServer.Click += startServer_Click;
             // 
@@ -637,7 +637,7 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(1068, 541);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "Настройки";
+            tabPage2.Text = "Налаштування";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox18
@@ -649,7 +649,7 @@
             groupBox18.Size = new Size(347, 535);
             groupBox18.TabIndex = 11;
             groupBox18.TabStop = false;
-            groupBox18.Text = "Настройки приложения";
+            groupBox18.Text = "Налаштування додатку";
             // 
             // groupBox20
             // 
@@ -662,7 +662,7 @@
             groupBox20.Size = new Size(165, 516);
             groupBox20.TabIndex = 1;
             groupBox20.TabStop = false;
-            groupBox20.Text = "Значения";
+            groupBox20.Text = "Значення";
             // 
             // valueMinRamNumeric
             // 
@@ -713,25 +713,25 @@
             groupBox19.Size = new Size(167, 516);
             groupBox19.TabIndex = 0;
             groupBox19.TabStop = false;
-            groupBox19.Text = "Параметры";
+            groupBox19.Text = "Параметри";
             // 
             // label56
             // 
             label56.AutoSize = true;
             label56.Location = new Point(6, 49);
             label56.Name = "label56";
-            label56.Size = new Size(127, 15);
+            label56.Size = new Size(125, 15);
             label56.TabIndex = 0;
-            label56.Text = "Мин ОЗУ для сервера";
+            label56.Text = "Мін ОЗП для сервера";
             // 
             // label55
             // 
             label55.AutoSize = true;
             label55.Location = new Point(6, 21);
             label55.Name = "label55";
-            label55.Size = new Size(131, 15);
+            label55.Size = new Size(133, 15);
             label55.TabIndex = 0;
-            label55.Text = "Макс ОЗУ для сервера";
+            label55.Text = "Макс ОЗП для сервера";
             // 
             // groupBox11
             // 
@@ -742,7 +742,7 @@
             groupBox11.Size = new Size(357, 490);
             groupBox11.TabIndex = 4;
             groupBox11.TabStop = false;
-            groupBox11.Text = "Настройки сервера";
+            groupBox11.Text = "Налаштування сервера";
             // 
             // panel1
             // 
@@ -796,7 +796,7 @@
             groupBox14.Size = new Size(166, 932);
             groupBox14.TabIndex = 5;
             groupBox14.TabStop = false;
-            groupBox14.Text = "Значения";
+            groupBox14.Text = "Значення";
             // 
             // levelNameTextBox
             // 
@@ -1111,7 +1111,7 @@
             groupBox13.Size = new Size(155, 932);
             groupBox13.TabIndex = 12;
             groupBox13.TabStop = false;
-            groupBox13.Text = "Параметры";
+            groupBox13.Text = "Параметри";
             // 
             // label4
             // 
@@ -1417,7 +1417,7 @@
             refreshButton.Name = "refreshButton";
             refreshButton.Size = new Size(121, 28);
             refreshButton.TabIndex = 3;
-            refreshButton.Text = "refresh";
+            refreshButton.Text = "Оновити";
             refreshButton.UseVisualStyleBackColor = true;
             refreshButton.Click += refreshButton_Click;
             // 
@@ -1427,7 +1427,7 @@
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(121, 28);
             saveButton.TabIndex = 3;
-            saveButton.Text = "save";
+            saveButton.Text = "Зберегти";
             saveButton.UseVisualStyleBackColor = true;
             saveButton.Click += saveButton_Click;
             // 
@@ -1439,7 +1439,7 @@
             groupBox12.Size = new Size(341, 534);
             groupBox12.TabIndex = 4;
             groupBox12.TabStop = false;
-            groupBox12.Text = "Настройки мира";
+            groupBox12.Text = "Налаштування світу";
             // 
             // panel2
             // 
@@ -1477,7 +1477,7 @@
             groupBox16.Size = new Size(164, 569);
             groupBox16.TabIndex = 0;
             groupBox16.TabStop = false;
-            groupBox16.Text = "Значения";
+            groupBox16.Text = "Значення";
             // 
             // allowflightComboBox
             // 
@@ -1683,7 +1683,7 @@
             groupBox15.Size = new Size(140, 569);
             groupBox15.TabIndex = 0;
             groupBox15.TabStop = false;
-            groupBox15.Text = "Параметры";
+            groupBox15.Text = "Параметри";
             // 
             // label9
             // 
@@ -1875,6 +1875,7 @@
             Controls.Add(tabControl1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "MainServer";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "StartUpMyServer";

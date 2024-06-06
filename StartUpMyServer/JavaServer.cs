@@ -9,7 +9,7 @@ namespace StartUpMyServer
         Process[] javaProcess;
 
         private readonly object lockObject = new object();
-        private Process serverProcess;
+        protected Process serverProcess;
 
         public event Action<string> ServerOutputReceived;
         
@@ -60,7 +60,7 @@ namespace StartUpMyServer
             }
         }
 
-        public void Restart(string javaPath)
+        public void Restart(string javaPath, string jarPath, string jarFolder)
         {
             lock (lockObject)
             {
@@ -68,10 +68,15 @@ namespace StartUpMyServer
                 foreach (Process jarProcess in javaProcess)
                 {
                     if (CheckServerPath(jarProcess, javaPath))
-                        serverProcess.StandardInput.WriteLine("restart");
+                    {
+                        serverProcess.StandardInput.WriteLine("stop");
+                        jarProcess.WaitForExit();
+                        Start(javaPath, jarPath, jarFolder);
+                    }
                 }
             }
         }
+
         public void sendCommand(string javaPath, string command)
         {
             lock (lockObject)

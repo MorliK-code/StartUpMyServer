@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+
+
 namespace StartUpMyServer
 {
     public partial class MainServer : Form
@@ -94,18 +96,18 @@ namespace StartUpMyServer
                     {
                         switch (selectLogLevel.Text)
                         {
-                            case "Весь вывод":
+                            case "Увесь вивід":
                                 consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
-                            case "Только INFO":
+                            case "Тільки INFO":
                                 if (output.Contains("INFO"))
                                     consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
-                            case "Только WARN":
+                            case "Тільки WARN":
                                 if (output.Contains("WARN"))
                                     consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
-                            case "Только ERROR":
+                            case "Тільки ERROR":
                                 if (output.Contains("ERROR"))
                                     consoleWrite.Items.Add(RemoveAnsiEscapeCodes(output));
                                 break;
@@ -146,7 +148,7 @@ namespace StartUpMyServer
             }
             else
             {
-                consoleWrite.Items.Add("Ошибка запуска сервера. Проверьте запускаемый JAR файл или папку запуска.");
+                consoleWrite.Items.Add("Помилка запуску сервера. Перевірте папку запуску або JAR файл");
             }
         }
 
@@ -157,9 +159,11 @@ namespace StartUpMyServer
 
         private void restartServer_Click(object sender, EventArgs e)
         {
-            server.Restart(javaPath);
+            server.Start(javaPath, selectedJarFile, selectedFolder);
+            
+            /*server.Restart(javaPath, selectedJarFile, selectedFolder);*/
         }
-
+        
         private void killServer_Click(object sender, EventArgs e)
         {
             server.Kill(javaPath);
@@ -203,7 +207,7 @@ namespace StartUpMyServer
                 {
                     selectedAssemblyName = addAssemblyForm.AssemblyName;
                     selectedJarFile = addAssemblyForm.JarFileName;
-                    customStartupPath = addAssemblyForm.selectedFolder;
+                    customStartupPath = addAssemblyForm.selectedFolderForm;
 
                     selectAssembly.Items.Add(selectedAssemblyName);
                     selectAssembly.SelectedItem = selectAssembly.Items.Count;
@@ -244,13 +248,13 @@ namespace StartUpMyServer
             bool isServerOpen = server.IsServerRunning(javaPath);
             if (isServerOpen)
             {
-                statusServer.Text = "Запущен";
+                statusServer.Text = "Працює";
                 EnableServerButtons(false);
             }
             else
             {
                 progressStartUp.Value = 0;
-                statusServer.Text = "Остановлен";
+                statusServer.Text = "Зупинен";
                 EnableServerButtons(true);
             }
         }
@@ -290,10 +294,10 @@ namespace StartUpMyServer
                         
 
                         consoleWrite.Items.Clear();
-                        consoleWrite.Items.Add($"Название сборки: {selectedAssemblyName}");
-                        consoleWrite.Items.Add($"Название JAR файла: {selectedJarName}");
-                        consoleWrite.Items.Add($"Путь JAR файла: {selectedJarFile}");
-                        consoleWrite.Items.Add($"Папка запуска: {startupFolder}");
+                        consoleWrite.Items.Add($"Назва збірки: {selectedAssemblyName}");
+                        consoleWrite.Items.Add($"Назва JAR файла: {selectedJarName}");
+                        consoleWrite.Items.Add($"Шлях JAR файла: {selectedJarFile}");
+                        consoleWrite.Items.Add($"Папка запуску: {startupFolder}");
                         consoleWrite.SelectedItem = consoleWrite.Items.Count - 1;
                         consoleWrite.ClearSelected();
 
@@ -320,12 +324,12 @@ namespace StartUpMyServer
                     JarFileManager.Save(assemblies);
 
 
-                    MessageBox.Show("Сборка успешно удалена.", "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Збірка успішно видалена", "Успішно", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
-                MessageBox.Show("Не выбрана сборка.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Не обрана сбірка.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             UpdateSelectAssembly();
             if (selectAssembly.Items.Count > 0)
@@ -349,28 +353,28 @@ namespace StartUpMyServer
         {
             switch (selectLogLevel.Text)
             {
-                case "Весь вывод":
+                case "Увесь вивід":
                     consoleWrite.Items.Clear();
                     foreach (var message in allMessage)
                     {
                         consoleWrite.Items.Add(message);
                     }
                     break;
-                case "Только INFO":
+                case "Тільки INFO":
                     consoleWrite.Items.Clear();
                     foreach (var message in infoMessages)
                     {
                         consoleWrite.Items.Add(message);
                     }
                     break;
-                case "Только WARN":
+                case "Тільки WARN":
                     consoleWrite.Items.Clear();
                     foreach (var message in warnMessages)
                     {
                         consoleWrite.Items.Add(message);
                     }
                     break;
-                case "Только ERROR":
+                case "Тільки ERROR":
                     consoleWrite.Items.Clear();
                     foreach (var message in errorMessages)
                     {
@@ -384,7 +388,7 @@ namespace StartUpMyServer
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveFileDialog.Title = "Сохранение логов";
+            saveFileDialog.Title = "Збереження логів";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -400,7 +404,7 @@ namespace StartUpMyServer
                         }
                     }
 
-                    MessageBox.Show("Log file saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Лог файл успішно збережено", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -436,7 +440,7 @@ namespace StartUpMyServer
 
             Dictionary<string, string> properties = ServerPropertiesManager.LoadServerProperties();
 
-            // настройки сервера
+            // Налаштування серверу
             if (properties.ContainsKey("level-name")) { levelNameTextBox.Text = properties["level-name"]; }
 
             if (properties.ContainsKey("motd")) { motdTextBox.Text = properties["motd"]; }
@@ -501,7 +505,7 @@ namespace StartUpMyServer
 
             if (properties.ContainsKey("white-list")) { whiteListComboBox.Text = properties["white-list"]; }
 
-            //настройки мира
+            // Налаштування світу
             if (properties.ContainsKey("allow-flight")) { allowflightComboBox.Text = properties["allow-flight"]; }
 
             if (properties.ContainsKey("allow-nether")) { allowNetherComboBox.Text = properties["allow-nether"]; }
@@ -540,7 +544,7 @@ namespace StartUpMyServer
 
             if (properties.ContainsKey("view-distance")) { viewDistanceTextBox.Text = properties["view-distance"]; }
 
-            // Настройки приложения
+            // Налаштування додатку
             valueMaxRamNumeric.Value = Settings.Default.selectMaxValueRAM;
             selectMaxGBOrMBComboBox.Text = Settings.Default.selectMaxGBorMB;
 
@@ -552,7 +556,7 @@ namespace StartUpMyServer
         {
             Dictionary<string, string> existingProperties = ServerPropertiesManager.LoadServerProperties();
 
-            // Настройки сервера
+            // Налаштування серверу
             existingProperties["level-name"] = levelNameTextBox.Text;
             existingProperties["motd"] = motdTextBox.Text;
             existingProperties["debug"] = debugComboBox.Text;
@@ -586,7 +590,7 @@ namespace StartUpMyServer
             existingProperties["server-port"] = serverPortTextBox.Text;
             existingProperties["white-list"] = whiteListComboBox.Text;
 
-            // Настройки мира
+            // Налаштування світу
             existingProperties["allow-flight"] = allowflightComboBox.Text;
             existingProperties["allow-nether"] = allowNetherComboBox.Text;
             existingProperties["difficulty"] = difficultyComboBox.Text;
@@ -607,7 +611,7 @@ namespace StartUpMyServer
             existingProperties["use-native-transport"] = useNativeTransportComboBox.Text;
             existingProperties["view-distance"] = viewDistanceTextBox.Text;
 
-            // Настройки приложения
+            // Налаштування додатку
             Settings.Default.selectMaxValueRAM = (int)valueMaxRamNumeric.Value;
             Settings.Default.selectMaxGBorMB = selectMaxGBOrMBComboBox.Text;
 
@@ -637,11 +641,11 @@ namespace StartUpMyServer
             try
             {
                 ServerPropertiesManager.SaveServerProperties(existingProperties);
-                MessageBox.Show("Настройки успешно сохранены.", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Налаштування успішно збережені.", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сохранении настроек: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка при збереженні налаштувань: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Settings.Default.Save();
         }

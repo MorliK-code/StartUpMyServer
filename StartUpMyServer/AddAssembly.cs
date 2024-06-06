@@ -10,14 +10,14 @@ namespace StartUpMyServer
         public string AssemblyName { get; private set; }
         public string JarFileName { get; private set; }
         public string JarFilePath { get; private set; }
-        public string selectedFolder { get; private set; }
+        public string selectedFolderForm { get; private set; }
 
         public AddAssemblyForm(string assemblyName, string jarFilePath, string selectedFolder)
         {
             InitializeComponent();
             AssemblyName = assemblyName;
             JarFilePath = jarFilePath;
-            selectedFolder = selectedFolder;
+            selectedFolderForm = selectedFolder;
         }
 
         private void AddAssemblyForm_Load(object sender, EventArgs e)
@@ -53,9 +53,9 @@ namespace StartUpMyServer
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                selectedFolder = folderBrowserDialog1.SelectedPath;
+                selectedFolderForm = folderBrowserDialog1.SelectedPath;
                 startupFolder.Text = "";
-                startupFolder.Text = selectedFolder;
+                startupFolder.Text = selectedFolderForm;
             }
         }
 
@@ -74,23 +74,23 @@ namespace StartUpMyServer
             AssemblyName = assemblyName.Text.Trim();
             if (string.IsNullOrWhiteSpace(AssemblyName))
             {
-                MessageBox.Show("Введите название сборки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Введіть назву збірки.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(JarFileName))
             {
-                MessageBox.Show("Выберите JAR файл.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Оберіть JAR файл.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (customFolder.Checked && string.IsNullOrWhiteSpace(selectedFolder))
+            if (customFolder.Checked && string.IsNullOrWhiteSpace(selectedFolderForm))
             {
-                MessageBox.Show("Выберите путь для запуска сборки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Оберіть місце запуску сервера.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            selectedFolder = startupFolder.Text;
+            selectedFolderForm = startupFolder.Text;
             return true;
         }
 
@@ -101,7 +101,7 @@ namespace StartUpMyServer
                 Name = AssemblyName,
                 JarFileName = JarFileName,
                 JarFilePath = JarFilePath,
-                Folder = selectedFolder
+                Folder = selectedFolderForm
             };
 
             List<JarFile> jarFiles = JarFileManager.Load();
